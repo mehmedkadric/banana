@@ -1,8 +1,8 @@
 # Bosnian News and Comments Analytics
 Supported portals:
-- Dnevni avaz
-- Faktor
 - Klix
+- Faktor
+- Dnevni avaz
 
 # Technologies used:
 
