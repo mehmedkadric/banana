@@ -8,7 +8,7 @@ Supported portals:
 
 - Python, Django
 - JavaScript, HTML, CSS, Materializecss, Chart js
-- BeautifulSoup
+- BeautifulSoup, Selenium
 
 # Sentiment analysis algorithm:
 - Bag of Words
