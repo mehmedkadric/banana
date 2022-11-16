@@ -7,7 +7,7 @@
 ## Technologies used:
 
 - Python, Django
-- JavaScript, HTML, CSS, Materializecss, Chart js, Ajax
+- JavaScript, HTML, CSS, Materializecss, Chart js, Ajax, jQuery
 - BeautifulSoup, Selenium
 
 ## Sentiment analysis algorithm:
