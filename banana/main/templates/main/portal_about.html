@@ -1,0 +1,125 @@
+{% extends 'main/main.html' %}
+
+{% block content %}
+    <h1 class="center-align">{{portal.portal_name}}</h1>
+
+
+    <div class="row center">
+        <div class="col s12 m12 l12">
+            <a href="{{portal.portal_url}}" target="_blank" class="">
+                <img class="card-img-top" src="/media/{{portal.portal_logo}}" alt="{{portal.portal_name}}">
+            </a>
+        </div>
+
+        <div class="col s12 m12 l4">
+            <p><strong>Publisher:</strong> {{portal.portal_publisher}}</p>
+        </div>
+        <div class="col s12 m6 l3">
+            <p><strong>Director:</strong> {{portal.portal_director}}</p>
+        </div>
+        <div class="col s12 m6 l3">
+            <p><strong>Editor-in-chief:</strong> {{portal.portal_editor_in_chief}}</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <h5>More about <i>{{portal.portal_name}}</i></h5>
+        <p>{{portal.portal_about_us|safe}}</p>
+    </div>
+
+    <div class="row">
+        <div class="col s12 m6 l6">
+            <canvas id="category"></canvas>
+        </div>
+
+        <div class="col s12 m6 l6">
+            <canvas id="tags"></canvas>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+    var raw_labels = {{data.category_labels|safe}};
+    var raw_data = {{data.category_data|safe}};
+
+    var data = {
+      labels: raw_labels,
+      datasets: [{
+        axis: 'y',
+        label: 'Number of Articles per Category',
+        data: raw_data,
+        fill: false,
+        borderColor: 'black',
+        borderWidth: 1
+      }]
+    };
+
+    var options = {
+        indexAxis: 'y',
+        scales: {
+            y: {
+                grid: {
+                  offset: true
+                }
+            }
+        }
+    };
+
+    var config = {
+      type: 'bar',
+      data,
+      options: options
+    };
+
+    var myChart = new Chart(
+        document.getElementById('category'),
+        config
+    );
+
+</script>
+
+
+<script>
+    var raw_labels = {{data.tag_labels|safe}};
+    var raw_data = {{data.tag_data|safe}};
+
+    var data = {
+      labels: raw_labels,
+      datasets: [{
+        axis: 'y',
+        label: 'Top Tags',
+        data: raw_data,
+        fill: false,
+        borderColor: 'black',
+        borderWidth: 1
+      }]
+    };
+
+    var options = {
+        indexAxis: 'y',
+        scales: {
+            y: {
+                grid: {
+                  offset: true
+                }
+            }
+        }
+    };
+
+    var config = {
+      type: 'bar',
+      data,
+      options: options
+    };
+
+    var myChart = new Chart(
+        document.getElementById('tags'),
+        config
+    );
+</script>
+{% endblock%}

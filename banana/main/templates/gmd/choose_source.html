@@ -1,0 +1,95 @@
+{% extends 'main/main.html' %}
+{% load materializecss %}
+{% block content %}
+ <div class="row center-align">
+     <h2>Get More Data</h2>
+
+     <div class="row">
+          <div id="spinner" class="preloader-wrapper big">
+            <div class="spinner-layer spinner-blue-only">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div><div class="gap-patch">
+                <div class="circle"></div>
+              </div><div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+          </div>
+     </div>
+
+
+     <div class="row">
+         <div class="col s2 offset-s5">
+
+             <form id="gmd-form">
+                {% csrf_token %}
+                 <div class="left-align">
+                    {{form|materializecss}}
+                 </div>
+                <input id="gmd-submit-btn" type="submit" class="btn btn-primary center-align" value="Run">
+             </form>
+
+
+         </div>
+     </div>
+ </div>
+
+
+{% endblock %}
+
+
+
+{% block javascript %}
+<script>
+    /*
+        On submiting the form, send the POST ajax
+        request to server and after successfull submission
+        display the object.
+    */
+    $("#gmd-form").submit(function (e) {
+        // preventing from page reload and default actions
+        e.preventDefault();
+        // serialize the data for sending the form data.
+        var serializedData = $(this).serialize();
+
+        var spinner = document.getElementById("spinner");
+        spinner.classList.add("active");
+
+        var submitButton = document.getElementById("gmd-submit-btn");
+        submitButton.disabled = true;
+
+        M.toast({html: "Here we go..."});
+
+        // make POST ajax call
+        $.ajax({
+            type: 'POST',
+            url: "/gmd/",
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            data: serializedData,
+            success: function (response) {
+                // on successfull creating object
+                // 1. clear the form.
+                $("#gmd-form").trigger('reset');
+                spinner.classList.remove("active");
+                submitButton.disabled = false;
+
+                if(response.scraped_articles != undefined) {
+                    M.toast({html: "Number of scraped articles: " + response.scraped_articles});
+                }
+                if(response.msg != undefined && response.msg != "") {
+                    M.toast({html: response.msg});
+                }
+            },
+            error: function (response) {
+                console.log("AAAA");
+                $("#gmd-form").trigger('reset');
+                spinner.classList.remove("active");
+                submitButton.disabled = false;
+            }
+        })
+
+
+    })
+</script>
+{% endblock javascript %}

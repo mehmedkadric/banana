@@ -1,0 +1,75 @@
+{% extends 'main/main.html' %}
+{% load materializecss %}
+{% block content %}
+    <div class="row">
+        <div class="col s2 left">
+            <form action="/comments/" method="post">
+                {% csrf_token %}
+                {{ form|materializecss }}
+                <input type="submit" class="btn btn-primary" value="Filter">
+            </form>
+        </div>
+        <div class="col s9 offset-s1">
+            <h1>Data Preview</h1>
+            <table class="striped highlight responsive-table">
+                <thead>
+                  <tr>
+                      <th>Username</th>
+                      <th>Comment</th>
+                      <th>Likes</th>
+                      <th>Dislikes</th>
+                      <th>Sentiment (BoW)</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                {% for c in comments %}
+
+                      <tr>
+                          <td>{{c.comment_username}}</td>
+                          <td>{{c.comment_content}}</td>
+                          <td>{{c.comment_like_count}}</td>
+                          <td>{{c.comment_dislike_count}}</td>
+                          <td>{{c.comment_sentiment_bow}}</td>
+                      </tr>
+
+                {% endfor %}
+
+                </tbody>
+            </table>
+            {% if comments.has_other_pages %}
+            <ul class="pagination center">
+                {% if comments.has_previous %}
+                    <li class="waves-effect"><a href="?page=
+                            {{ comments.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i
+                            class="material-icons">chevron_left</i></a></li>
+                {% else %}
+                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                {% endif %}
+                {% for num in page_range|default_if_none:comments.paginator.get_elided_page_range %}
+                    {% if comments.number == num %}
+                        <li class="active teal"><a href="#!">{{ num }}</a></li>
+                    {% else %}
+
+
+                        <li class="waves-effect"><a href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if comments.has_next %}
+                    <li class="waves-effect"><a
+                            href="?page={{ comments.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"><i
+                            class="material-icons">chevron_right</i></a></li>
+                {% else %}
+                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        var elems = document.querySelectorAll('.sidenav');
+        var instances = M.Sidenav.init(elems, {});
+    </script>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'main/main.html' %}
+
+{% block content %}
+    <h1 class="center">Welcome to the Bosnian News Analytics</h1>
+    <div class="row row-for-cards left-align">
+        {% for portal in portals %}
+            <div class="col s12 m6 l4">
+                <div class="card">
+                    <div class="card-content d-flex flex-column">
+                        <div align="center">
+                            <a href="{{portal.portal_url}}" target="_blank" class="">
+                                <img class="card-img-top" src="/media/{{portal.portal_logo}}" alt="{{portal.portal_name}}">
+                            </a>
+                        </div>
+                        <hr>
+                      <div class="card-body">
+                          {% if portal.portal_publisher == '' %}
+                          <p class="card-text"><i>Publisher not available</i></p>
+                          {% else %}
+                            <p class="card-text"><i>Publisher:</i> <strong>{{portal.portal_publisher}}</strong></p>
+                          {% endif %}
+                          <br>
+                          <p>{{ portal.portal_about_us | slice:":100" | safe}}...</p>
+
+                        <br>
+                          <div class="card-action right-align" id="bottomDiv">
+                            <a href="portals/{{portal.portal_slug}}" class="btn btn-primary btn-block">Read more</a>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

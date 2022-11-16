@@ -1,0 +1,78 @@
+{% extends 'main/main.html' %}
+{% load materializecss %}
+{% load article_extras %}
+{% block content %}
+    <div class="row">
+        <div class="col s2 left">
+            <form method="get">
+                {{ filtered_articles.form | materializecss}}
+                <input type="submit" class="btn btn-primary right" value="Filter">
+            </form>
+        </div>
+            <div class="col s9 offset-s1">
+                <h1>Data Preview</h1>
+                <table class="striped highlight responsive-table">
+                    <thead>
+                      <tr>
+                          <th>ID</th>
+                          <th>Title</th>
+                          <th>Category</th>
+                          <th>#Shares</th>
+                          <th>#Comments</th>
+                          <th>Sentiment (BoW)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for a in article_page_object %}
+                          <tr>
+                              <td>{{a.id}}</td>
+                              <td><a href="{{a.article_url}}" target="_blank" title="{{a.article_subtitle}}">{{a.article_title}}</a></td>
+                              <td>{{a.article_category}}</td>
+                              <td>{{a.article_number_of_shares}}</td>
+                              <td>{{a.article_number_of_comments}}</td>
+                              <td>{{a.article_sentiment_bow}}</td>
+                          </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+                {% if article_page_object.has_other_pages %}
+                <ul class="pagination center">
+                    {% if article_page_object.has_previous %}
+                        <li class="waves-effect"><a href="{% my_url article_page_object.previous_page_number 'page' request.GET.urlencode %}"><i
+                                class="material-icons">chevron_left</i></a></li>
+                    {% else %}
+                        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                    {% endif %}
+                    {% for num in page_range|default_if_none:article_page_object.paginator.get_elided_page_range %}
+                        {% if article_page_object.number == num %}
+                            <li class="active teal"><a href="">{{ num }}</a></li>
+                        {% else %}
+                            <li class="waves-effect"><a href="{% my_url num 'page' request.GET.urlencode %}">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if article_page_object.has_next %}
+                        <li class="waves-effect"><a
+                                href="{% my_url article_page_object.next_page_number 'page' request.GET.urlencode %}"><i
+                                class="material-icons">chevron_right</i></a></li>
+                    {% else %}
+                        <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+            </div>
+
+    </div>
+
+
+    <script>
+
+<script>
+    $(document).ready(function(){
+        $('.input').datepicker();
+    });
+</script>
+
+{% endblock %}

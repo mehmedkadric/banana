@@ -1,0 +1,13 @@
+<li><a href="/">Home</a></li>
+<li><a href="/about/">About Us</a></li>
+{% if user.is_authenticated %}
+  <li><a href="/gmd/">Get More Data</a></li>
+  <li><a href="/data/">Articles Preview</a></li>
+  <li><a href="/comments/">Comments Preview</a></li>
+  <li><a href="/comment/">Check this out!</a></li>
+  <li><a href="/profile/">{{user.username}}</a></li>
+  <li><a href="/logout/">Logout</a></li>
+{% else %}
+  <li><a href="/register">Register</a></li>
+  <li><a href="/login">Login</a></li>
+{% endif %}

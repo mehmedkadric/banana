@@ -1,0 +1,35 @@
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+img {
+    max-width: 120px;
+    max-height: 120px;
+}
+
+.btn-primary {
+    background-color: #24a0ed !important
+}
+
+.row-for-cards {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    height: 97%;
+    padding-bottom: 5%;
+}
+
+#bottomDiv{
+    position: absolute;
+    padding-top: 5%;
+    bottom: 0;
+    right: 0;
+}

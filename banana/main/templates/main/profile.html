@@ -1,0 +1,31 @@
+{% extends 'main/main.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col s4 offset-s4">
+        <h3><i class="material-icons">account_circle</i> {{user.username}}</h3>
+    </div>
+    <div class="col s4 offset-s4">
+        <table>
+            <tbody>
+            <tr>
+                <td><i>First name</i></td>
+                <td>{{user.first_name}}</td>
+            </tr>
+            <tr>
+                <td><i>Last name</i></td>
+                <td>{{user.last_name}}</td>
+            </tr>
+            <tr>
+                <td><i>Username</i></td>
+                <td>{{user.username}}</td>
+            </tr>
+            <tr>
+                <td><i>Email</i></td>
+                <td>{{user.email}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
